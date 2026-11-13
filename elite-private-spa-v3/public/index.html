@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elite Private Spa</title><link rel="stylesheet" href="/style.css"></head>
+<body><header><h1>Elite Private Spa</h1><p>Private spa experiences, tailored to you.</p></header>
+<main><section class="panel"><h2>Book an Experience</h2><p>Submit your booking request. The spa team will prepare your personal payment link after reviewing your booking.</p>
+<form id="booking">
+<label>Full name<input name="customer_name" required></label>
+<label>Email<input name="email" type="email" required></label>
+<label>Phone<input name="phone" required></label>
+<label>Package<select name="package_name" required><option value="">Choose a package</option><option>Relaxation Massage</option><option>Luxury Spa Package</option><option>Couples Spa Experience</option><option>Custom Private Spa</option></select></label>
+<label>Preferred date<input name="service_date" type="date" required></label>
+<label>Service location<input name="location" required placeholder="Your city / service address"></label>
+<label>Notes<textarea name="notes" rows="3"></textarea></label>
+<button>Submit Booking</button></form><p id="result" role="status"></p></section>
+<p class="center">Need help? Contact the spa directly.</p></main>
+<script>
+document.getElementById('booking').addEventListener('submit', async e => {
+ e.preventDefault(); const data=Object.fromEntries(new FormData(e.target).entries());
+ const r=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+ const j=await r.json(); document.getElementById('result').textContent=j.message||j.error;
+ if(r.ok)e.target.reset();
+});
+</script></body></html>
